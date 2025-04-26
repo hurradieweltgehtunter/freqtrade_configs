@@ -1,1 +1,3 @@
 # freqtrade_configs
+
+test
