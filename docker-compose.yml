@@ -2,6 +2,9 @@ version: '3.8'
 
 services:
     BinanceX5Spot:
+        build:
+            context: .
+            dockerfile: Dockerfile.custom
         image: freqtradeorg/freqtrade:stable
         container_name: BinanceX5Spot
         restart: always
@@ -22,6 +25,9 @@ services:
             --strategy NostalgiaForInfinityX5
 
     BitgetX5Spot:
+        build:
+            context: .
+            dockerfile: Dockerfile.custom
         image: freqtradeorg/freqtrade:stable
         container_name: BitgetX5Spot
         restart: always
