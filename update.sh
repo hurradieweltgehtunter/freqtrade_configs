@@ -1,14 +1,25 @@
 #!/bin/bash
 
-LOGFILE="/home/holu/freqtrade/update_configs.log"
-echo "===== Update gestartet am $(date) =====" >> "$LOGFILE"
-
 BASE_DIR="/home/holu/freqtrade"
 CONFIG_REPO="$BASE_DIR/freqtrade_configs"
 USER_DATA="$BASE_DIR/user_data"
 NFI_DIR="$USER_DATA/strategies/NostalgiaForInfinity"
 
+if [ ! -d "$USER_DATA/logs" ]; then
+    mkdir -p "$USER_DATA/logs"
+fi
+
+LOGFILE="$USER_DATA/logs/updates.log"
+echo "===== Update gestartet am $(date) =====" >> "$LOGFILE"
+
+
 # ==== freqtrade_configs Repo prüfen ====
+# check if user_data/configs directory exists and create, if not
+if [ ! -d "$USER_DATA/configs" ]; then
+    echo "Erstelle $USER_DATA/configs..." >> "$LOGFILE"
+    mkdir -p "$USER_DATA/configs"
+fi
+
 if [ -d "$CONFIG_REPO" ]; then
     echo "Prüfe freqtrade_configs Repo..." >> "$LOGFILE"
     cd "$CONFIG_REPO"
@@ -18,7 +29,7 @@ if [ -d "$CONFIG_REPO" ]; then
 
     if [ "$local_commit_before" != "$local_commit_after" ]; then
         echo "Änderungen im freqtrade_configs Repo erkannt. Aktualisiere Configs..." >> "$LOGFILE"
-        
+
         if [ -d "$USER_DATA/configs" ]; then
             echo "Leere $USER_DATA/configs..." >> "$LOGFILE"
             rm -rf "$USER_DATA/configs"
@@ -26,7 +37,7 @@ if [ -d "$CONFIG_REPO" ]; then
 
         if [ -d "$CONFIG_REPO/configs" ]; then
             echo "Kopiere neue Configs..." >> "$LOGFILE"
-            cp -r "$CONFIG_REPO/configs" "$USER_DATA/"
+            cp -r "$CONFIG_REPO/configs/"* "$USER_DATA/"
         else
             echo "FEHLER: $CONFIG_REPO/configs nicht gefunden!" >> "$LOGFILE"
         fi
