@@ -51,6 +51,13 @@ if [ -d "$CONFIG_REPO" ]; then
         else
             echo "FEHLER: docker-compose.yml nicht gefunden!" >> "$LOGFILE"
         fi
+
+        if [ -f "$CONFIG_REPO/Dockerfile.custom" ]; then
+            echo "Kopiere Dockerfile.custom..." >> "$LOGFILE"
+            cp "$CONFIG_REPO/Dockerfile.custom" "$BASE_DIR/"
+        else
+            echo "FEHLER: Dockerfile.custom nicht gefunden!" >> "$LOGFILE"
+        fi
     else
         echo "Keine Änderungen im freqtrade_configs Repo. Überspringe Config-Update." >> "$LOGFILE"
     fi
