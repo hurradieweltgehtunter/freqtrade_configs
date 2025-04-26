@@ -1,0 +1,11 @@
+{
+    "max_open_trades": 10,
+    "stake_currency": "USDC",
+    "stake_amount": "unlimited",
+    "tradable_balance_ratio": 0.99,
+    "fiat_display_currency": "USD",
+    "available_capital": 1000,
+    "dry_run": true,
+    "dry_run_wallet": 8000,
+    "cancel_open_orders_on_exit": false
+}

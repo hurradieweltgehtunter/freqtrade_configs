@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schema.freqtrade.io/schema.json",
+    "strategy": "NostalgiaForInfinityX5",
+    "add_config_files": [
+        "../strategies/NostalgiaForInfinity/configs/trading_mode-spot.json",
+        "../strategies/NostalgiaForInfinity/configs/pairlist-volume-bitget-usdt.json",
+        "../strategies/NostalgiaForInfinity/configs/blacklist-bitget.json",
+        "./wallet.bitget.json"
+    ],
+    "unfilledtimeout": {
+        "entry": 10,
+        "exit": 10,
+        "exit_timeout_count": 0,
+        "unit": "minutes"
+    },
+    "entry_pricing": {
+        "price_side": "other",
+        "use_order_book": true,
+        "order_book_top": 1,
+        "price_last_balance": 0.0,
+        "check_depth_of_market": {
+            "enabled": false,
+            "bids_to_ask_delta": 1
+        }
+    },
+    "exit_pricing": {
+        "price_side": "other",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "exchange": {
+        "name": "bitget",
+        "key": "",
+        "secret": "",
+        "ccxt_config": {},
+        "ccxt_async_config": {}
+    },
+    "telegram": {
+        "enabled": false,
+        "token": "7867862799:AAGzC5Y08_vv7Jdvz6jLDqEXTJmIaK0YDmo",
+        "chat_id": "460737625"
+    },
+    "api_server": {
+        "enabled": true,
+        "listen_ip_address": "0.0.0.0",
+        "listen_port": 8080,
+        "verbosity": "error",
+        "enable_openapi": false,
+        "jwt_secret_key": "bae69e8bebc3fded80256a4676b8752eac19b6d46a914de8b75833e14252f256",
+        "ws_token": "ocZXkODhZPsk7-qNrI3pDQVVX9R4w0YiDg",
+        "CORS_origins": ["*"],
+        "username": "freqtrader",
+        "password": "freqtrader"
+    },
+    "bot_name": "BitgetX5Spot",
+    "initial_state": "running",
+    "force_entry_enable": false,
+    "internals": {
+        "process_throttle_secs": 5
+    }
+}

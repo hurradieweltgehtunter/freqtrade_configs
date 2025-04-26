@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+    BinanceX5Spot:
+        image: freqtradeorg/freqtrade:stable
+        container_name: BinanceX5Spot
+        restart: always
+        volumes:
+            - ./user_data:/freqtrade/user_data
+            - /etc/localtime:/etc/localtime:ro
+        env_file:
+            - .env
+        environment:
+            - PYTHONUNBUFFERED=1
+        ports:
+            - '127.0.0.1:8081:8080'
+        command: >
+            trade
+            --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
+            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@localhost/freqtrade_db
+            --config /freqtrade/user_data/configs/BinanceX5Spot.json
+            --strategy NostalgiaForInfinityX5
+
+    BitgetX5Spot:
+        image: freqtradeorg/freqtrade:stable
+        container_name: BitgetX5Spot
+        restart: always
+        volumes:
+            - ./user_data:/freqtrade/user_data
+            - /etc/localtime:/etc/localtime:ro
+        env_file:
+            - .env
+        environment:
+            - PYTHONUNBUFFERED=1
+        ports:
+            - '127.0.0.1:8082:8080'
+        command: >
+            trade
+            --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
+            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@localhost/freqtrade_db
+            --config /freqtrade/user_data/configs/BitgetX5Spot.json
+            --strategy NostalgiaForInfinityX5
