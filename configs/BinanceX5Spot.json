@@ -36,9 +36,9 @@
         "ccxt_async_config": {}
     },
     "telegram": {
-        "enabled": true,
-        "token": "7867862799:AAGzC5Y08_vv7Jdvz6jLDqEXTJmIaK0YDmo",
-        "chat_id": "460737625"
+        "enabled": false,
+        "token": "",
+        "chat_id": ""
     },
     "api_server": {
         "enabled": true,
