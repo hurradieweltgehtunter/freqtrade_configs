@@ -18,6 +18,8 @@ echo "===== Update gestartet am $(date) =====" >> "$LOGFILE"
 if [ ! -d "$USER_DATA/configs" ]; then
     echo "Erstelle $USER_DATA/configs..." >> "$LOGFILE"
     mkdir -p "$USER_DATA/configs"
+else
+    echo "$USER_DATA/configs existiert bereits." >> "$LOGFILE"
 fi
 
 if [ -d "$CONFIG_REPO" ]; then
@@ -37,7 +39,7 @@ if [ -d "$CONFIG_REPO" ]; then
 
         if [ -d "$CONFIG_REPO/configs" ]; then
             echo "Kopiere neue Configs..." >> "$LOGFILE"
-            cp -r "$CONFIG_REPO/configs/"* "$USER_DATA/"
+            cp -r "$CONFIG_REPO/configs/"* "$USER_DATA/configs/"
         else
             echo "FEHLER: $CONFIG_REPO/configs nicht gefunden!" >> "$LOGFILE"
         fi
