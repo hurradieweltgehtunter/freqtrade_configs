@@ -35,7 +35,7 @@ if [ -d "$CONFIG_REPO" ]; then
 
         if [ -d "$USER_DATA/configs" ]; then
             echo "Leere $USER_DATA/configs..." >> "$LOGFILE"
-            rm -rf "$USER_DATA/configs"
+            rm -rf "$USER_DATA/configs/"*
         fi
 
         if [ -d "$CONFIG_REPO/configs" ]; then
