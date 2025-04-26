@@ -8,6 +8,7 @@ services:
         image: freqtradeorg/freqtrade:stable
         container_name: BinanceX5Spot
         restart: always
+        network_mode: host
         volumes:
             - ./user_data:/freqtrade/user_data
             - /etc/localtime:/etc/localtime:ro
@@ -20,7 +21,7 @@ services:
         command: >
             trade
             --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
-            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@host.docker.internal/binance_x5_spot_db
+            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@localhost/binance_x5_spot_db
             --config /freqtrade/user_data/configs/BinanceX5Spot.json
             --strategy NostalgiaForInfinityX5
 
@@ -31,6 +32,7 @@ services:
         image: freqtradeorg/freqtrade:stable
         container_name: BitgetX5Spot
         restart: always
+        network_mode: host
         volumes:
             - ./user_data:/freqtrade/user_data
             - /etc/localtime:/etc/localtime:ro
@@ -43,6 +45,6 @@ services:
         command: >
             trade
             --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
-            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@host.docker.internal/bitget_x5_spot_db
+            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@localhost/bitget_x5_spot_db
             --config /freqtrade/user_data/configs/BitgetX5Spot.json
             --strategy NostalgiaForInfinityX5
