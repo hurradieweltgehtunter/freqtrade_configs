@@ -20,7 +20,7 @@ services:
         command: >
             trade
             --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
-            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@localhost/freqtrade_db
+            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@host.docker.internal/binance_x5_spot_db
             --config /freqtrade/user_data/configs/BinanceX5Spot.json
             --strategy NostalgiaForInfinityX5
 
@@ -43,6 +43,6 @@ services:
         command: >
             trade
             --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
-            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@localhost/freqtrade_db
+            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@host.docker.internal/bitget_x5_spot_db
             --config /freqtrade/user_data/configs/BitgetX5Spot.json
             --strategy NostalgiaForInfinityX5
