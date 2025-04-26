@@ -26,7 +26,8 @@ if [ -d "$CONFIG_REPO" ]; then
     echo "Prüfe freqtrade_configs Repo..." >> "$LOGFILE"
     cd "$CONFIG_REPO"
     local_commit_before=$(git rev-parse HEAD)
-    git pull >> "$LOGFILE" 2>&1
+    git fetch --all >> "$LOGFILE" 2>&1
+    git reset --hard origin/main >> "$LOGFILE" 2>&1
     local_commit_after=$(git rev-parse HEAD)
 
     if [ "$local_commit_before" != "$local_commit_after" ]; then
