@@ -13,7 +13,7 @@ services:
             DATABASES: freqtrade_binance_x5_spot_db,freqtrade_bitget_x5_spot_db
         volumes:
             - /home/holu/docker-volumes/postgres-data:/var/lib/postgresql/data
-            - ./freqtrade_configs/scripts:/scripts:ro
+            - ./freqtrade_configs/scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
         networks:
             - freqtrade-net
         healthcheck:
