@@ -63,6 +63,14 @@ if [ -d "$CONFIG_REPO" ]; then
             echo "FEHLER: Dockerfile.custom nicht gefunden!" >> "$LOGFILE"
         fi
 
+        # Copy Dockerfile.watchdog
+        if [ -f "$CONFIG_REPO/Dockerfile.watchdog" ]; then
+            echo "Kopiere Dockerfile.watchdog..." >> "$LOGFILE"
+            cp "$CONFIG_REPO/Dockerfile.watchdog" "$BASE_DIR/"
+        else
+            echo "FEHLER: Dockerfile.watchdog nicht gefunden!" >> "$LOGFILE"
+        fi
+
         # Make all scripts executable in $CONFIG_REPO/scripts
         if [ -d "$CONFIG_REPO/scripts" ]; then
             echo "Mache alle Skripte in $CONFIG_REPO/scripts ausführbar..." >> "$LOGFILE"
