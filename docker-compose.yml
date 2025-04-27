@@ -37,6 +37,8 @@ services:
             - .env
         environment:
             - PYTHONUNBUFFERED=1
+            - WAITFORIT_SERVICE=db
+            - WAITFORIT_PORT=5432
         ports:
             - '127.0.0.1:8081:8080'
         networks:
@@ -66,6 +68,8 @@ services:
             - .env
         environment:
             - PYTHONUNBUFFERED=1
+            - WAITFORIT_SERVICE=db
+            - WAITFORIT_PORT=5432
         ports:
             - '127.0.0.1:8082:8080'
         networks:

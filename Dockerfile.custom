@@ -3,3 +3,9 @@
 FROM freqtradeorg/freqtrade:stable
 
 RUN pip install psycopg2-binary
+
+FROM freqtradeorg/freqtrade:stable
+
+COPY ./freqtrade_configs/scripts/wait-for-it.sh /scripts/wait-for-it.sh
+
+ENTRYPOINT ["/scripts/wait-for-it.sh"]
