@@ -1,3 +1,3 @@
 # freqtrade_configs
 
-test5
+test6
