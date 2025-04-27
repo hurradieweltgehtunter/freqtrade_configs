@@ -49,7 +49,7 @@ services:
         depends_on:
             - db
         command: >
-            freqtrade trade
+            trade
             --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
             --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
             --config /freqtrade/user_data/configs/BinanceX5Spot.json
@@ -78,7 +78,7 @@ services:
         depends_on:
             - db
         command: >
-            freqtrade trade
+            trade
             --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
             --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_bitget_x5_spot_db
             --config /freqtrade/user_data/configs/BitgetX5Spot.json
