@@ -5,7 +5,7 @@ services:
         image: postgres:16
         container_name: postgres
         restart: always
-        shm_size: 256mb
+        shm_size: 512mb
         environment:
             POSTGRES_USER: freqtrade
             POSTGRES_PASSWORD: fr3qtrade
@@ -49,11 +49,17 @@ services:
         depends_on:
             - db
         command: >
-            trade
-            --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
-            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
-            --config /freqtrade/user_data/configs/BinanceX5Spot.json
-            --strategy NostalgiaForInfinityX5
+            bash -c "
+              until pg_isready -h db -p 5432 -U freqtrade; do
+                echo 'Waiting for Postgres (BinanceX5Spot)...';
+                sleep 2;
+              done;
+              freqtrade trade
+              --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
+              --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
+              --config /freqtrade/user_data/configs/BinanceX5Spot.json
+              --strategy NostalgiaForInfinityX5
+            "
 
     BitgetX5Spot:
         build:
@@ -76,11 +82,17 @@ services:
         depends_on:
             - db
         command: >
-            trade
-            --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
-            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_bitget_x5_spot_db
-            --config /freqtrade/user_data/configs/BitgetX5Spot.json
-            --strategy NostalgiaForInfinityX5
+            bash -c "
+              until pg_isready -h db -p 5432 -U freqtrade; do
+                echo 'Waiting for Postgres (BitgetX5Spot)...';
+                sleep 2;
+              done;
+              freqtrade trade
+              --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
+              --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_bitget_x5_spot_db
+              --config /freqtrade/user_data/configs/BitgetX5Spot.json
+              --strategy NostalgiaForInfinityX5
+            "
 
 networks:
     freqtrade-net:
