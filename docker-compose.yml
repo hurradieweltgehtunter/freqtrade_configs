@@ -10,7 +10,6 @@ services:
             POSTGRES_USER: freqtrade
             POSTGRES_PASSWORD: fr3qtrade
             POSTGRES_DB: freqtrade_db
-            # list of databases to create with init-db script
             DATABASES: freqtrade_binance_x5_spot_db,freqtrade_bitget_x5_spot_db
         volumes:
             - ./postgres-data:/var/lib/postgresql/data
@@ -21,7 +20,7 @@ services:
             [
                 'bash',
                 '-c',
-                'docker-entrypoint.sh postgres & /freqtrade_configs/scripts/init-db.sh',
+                'docker-entrypoint.sh postgres & /scripts/init-db.sh',
             ]
         healthcheck:
             test: ['CMD', 'pg_isready', '-U', 'freqtrade']
@@ -47,6 +46,8 @@ services:
             - '127.0.0.1:8081:8080'
         networks:
             - freqtrade-net
+        depends_on:
+            - db
         command: >
             trade
             --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
@@ -72,6 +73,8 @@ services:
             - '127.0.0.1:8082:8080'
         networks:
             - freqtrade-net
+        depends_on:
+            - db
         command: >
             trade
             --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
