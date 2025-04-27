@@ -16,12 +16,6 @@ services:
             - ./freqtrade_configs/scripts:/scripts:ro
         networks:
             - freqtrade-net
-        command:
-            [
-                'bash',
-                '-c',
-                'docker-entrypoint.sh postgres & /scripts/init-db.sh',
-            ]
         healthcheck:
             test: ['CMD', 'pg_isready', '-U', 'freqtrade']
             interval: 30s
@@ -37,6 +31,7 @@ services:
         restart: always
         volumes:
             - ./user_data:/freqtrade/user_data
+            - ./freqtrade_configs/scripts:/scripts:ro
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
@@ -49,6 +44,7 @@ services:
         depends_on:
             - db
         command: >
+            /scripts/wait-for-db.sh db:5432 --strict --timeout=60 --
             trade
             --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
             --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
@@ -64,6 +60,7 @@ services:
         restart: always
         volumes:
             - ./user_data:/freqtrade/user_data
+            - ./freqtrade_configs/scripts:/scripts:ro
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
@@ -76,6 +73,7 @@ services:
         depends_on:
             - db
         command: >
+            /scripts/wait-for-db.sh db:5432 --strict --timeout=60 --
             trade
             --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
             --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_bitget_x5_spot_db
