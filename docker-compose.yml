@@ -37,6 +37,7 @@ services:
         restart: always
         volumes:
             - ./user_data:/freqtrade/user_data
+            - ./freqtrade_configs/scripts:/scripts:ro
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
@@ -49,17 +50,13 @@ services:
         depends_on:
             - db
         command: >
-            bash -c "
-              until pg_isready -h db -p 5432 -U freqtrade; do
-                echo 'Waiting for Postgres (BinanceX5Spot)...';
-                sleep 2;
-              done;
-              freqtrade trade
-              --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
-              --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
-              --config /freqtrade/user_data/configs/BinanceX5Spot.json
-              --strategy NostalgiaForInfinityX5
-            "
+            /scripts/wait-for-db.sh
+
+            freqtrade trade
+            --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
+            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
+            --config /freqtrade/user_data/configs/BinanceX5Spot.json
+            --strategy NostalgiaForInfinityX5
 
     BitgetX5Spot:
         build:
@@ -70,6 +67,7 @@ services:
         restart: always
         volumes:
             - ./user_data:/freqtrade/user_data
+            - ./freqtrade_configs/scripts:/scripts:ro
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
@@ -82,17 +80,12 @@ services:
         depends_on:
             - db
         command: >
-            bash -c "
-              until pg_isready -h db -p 5432 -U freqtrade; do
-                echo 'Waiting for Postgres (BitgetX5Spot)...';
-                sleep 2;
-              done;
-              freqtrade trade
-              --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
-              --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_bitget_x5_spot_db
-              --config /freqtrade/user_data/configs/BitgetX5Spot.json
-              --strategy NostalgiaForInfinityX5
-            "
+            /scripts/wait-for-db.sh
+            freqtrade trade
+            --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
+            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_bitget_x5_spot_db
+            --config /freqtrade/user_data/configs/BitgetX5Spot.json
+            --strategy NostalgiaForInfinityX5
 
 networks:
     freqtrade-net:
