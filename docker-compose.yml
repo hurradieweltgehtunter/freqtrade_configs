@@ -22,6 +22,51 @@ services:
             timeout: 10s
             retries: 5
 
+    # WATCHDOG: Check Freqtrade health bots and restart if they are not running
+    watchdog:
+        build:
+            context: .
+            dockerfile: Dockerfile.watchdog
+        container_name: freqtrade_watchdog
+        restart: always
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./freqtrade_configs/scripts:/scripts:ro
+        networks:
+            - freqtrade-net
+        environment:
+            - WATCHDOG_INTERVAL=60
+        depends_on:
+            - BinanceX5Spot
+            - BitgetX5Spot
+
+    FreqTradeUI:
+        build:
+            context: .
+            dockerfile: Dockerfile.custom
+        image: freqtradeorg/freqtrade:stable
+        container_name: FreqTradeUI
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        env_file:
+            - .env
+        environment:
+            - PYTHONUNBUFFERED=1
+            - WAITFORIT_SERVICE=db
+            - WAITFORIT_PORT=5432
+        ports:
+            - '127.0.0.1:8080:8080'
+        networks:
+            - freqtrade-net
+        depends_on:
+            - db
+        command: >
+            webserver
+            --logfile /freqtrade/user_data/logs/FreqTradeUI.log
+            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
+            --config /freqtrade/user_data/configs/webserver.json
+
     BinanceX5Spot:
         build:
             context: .
