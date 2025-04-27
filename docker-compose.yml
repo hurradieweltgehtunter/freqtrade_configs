@@ -10,10 +10,19 @@ services:
             POSTGRES_USER: freqtrade
             POSTGRES_PASSWORD: fr3qtrade
             POSTGRES_DB: freqtrade_db
+            # list of databases to create with init-db script
+            DATABASES: freqtrade_binance_x5_spot_db,freqtrade_bitget_x5_spot_db
         volumes:
             - ./postgres-data:/var/lib/postgresql/data
+            - ./scripts:/scripts:ro
         networks:
             - freqtrade-net
+        command:
+            [
+                'bash',
+                '-c',
+                'docker-entrypoint.sh postgres & /scripts/init-db.sh',
+            ]
         healthcheck:
             test: ['CMD', 'pg_isready', '-U', 'freqtrade']
             interval: 30s

@@ -33,11 +33,13 @@ if [ -d "$CONFIG_REPO" ]; then
     if [ "$local_commit_before" != "$local_commit_after" ]; then
         echo "Änderungen im freqtrade_configs Repo erkannt. Aktualisiere Configs..." >> "$LOGFILE"
 
+        # Truncate configs directory
         if [ -d "$USER_DATA/configs" ]; then
             echo "Leere $USER_DATA/configs..." >> "$LOGFILE"
             rm -rf "$USER_DATA/configs/"*
         fi
 
+        # Copy new configs
         if [ -d "$CONFIG_REPO/configs" ]; then
             echo "Kopiere neue Configs..." >> "$LOGFILE"
             cp -r "$CONFIG_REPO/configs/"* "$USER_DATA/configs/"
@@ -45,6 +47,7 @@ if [ -d "$CONFIG_REPO" ]; then
             echo "FEHLER: $CONFIG_REPO/configs nicht gefunden!" >> "$LOGFILE"
         fi
 
+        # Copy docker-compose.yml
         if [ -f "$CONFIG_REPO/docker-compose.yml" ]; then
             echo "Kopiere docker-compose.yml..." >> "$LOGFILE"
             cp "$CONFIG_REPO/docker-compose.yml" "$BASE_DIR/"
@@ -52,11 +55,20 @@ if [ -d "$CONFIG_REPO" ]; then
             echo "FEHLER: docker-compose.yml nicht gefunden!" >> "$LOGFILE"
         fi
 
+        # Copy Dockerfile.custom
         if [ -f "$CONFIG_REPO/Dockerfile.custom" ]; then
             echo "Kopiere Dockerfile.custom..." >> "$LOGFILE"
             cp "$CONFIG_REPO/Dockerfile.custom" "$BASE_DIR/"
         else
             echo "FEHLER: Dockerfile.custom nicht gefunden!" >> "$LOGFILE"
+        fi
+
+        # Make all scripts executable in $CONFIG_REPO/scripts
+        if [ -d "$CONFIG_REPO/scripts" ]; then
+            echo "Mache alle Skripte in $CONFIG_REPO/scripts ausführbar..." >> "$LOGFILE"
+            chmod +x "$CONFIG_REPO/scripts/"*
+        else
+            echo "FEHLER: $CONFIG_REPO/scripts nicht gefunden!" >> "$LOGFILE"
         fi
     else
         echo "Keine Änderungen im freqtrade_configs Repo. Überspringe Config-Update." >> "$LOGFILE"
