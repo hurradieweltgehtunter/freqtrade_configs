@@ -37,7 +37,6 @@ services:
         restart: always
         volumes:
             - ./user_data:/freqtrade/user_data
-            - ./freqtrade_configs/scripts:/scripts:ro
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
@@ -50,12 +49,12 @@ services:
         depends_on:
             - db
         command: >
-            /scripts/wait-for-db.sh
-
             freqtrade trade
             --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
             --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
             --config /freqtrade/user_data/configs/BinanceX5Spot.json
+            --db-retry-count 20
+            --db-retry-wait 5
             --strategy NostalgiaForInfinityX5
 
     BitgetX5Spot:
@@ -67,7 +66,6 @@ services:
         restart: always
         volumes:
             - ./user_data:/freqtrade/user_data
-            - ./freqtrade_configs/scripts:/scripts:ro
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
@@ -80,11 +78,12 @@ services:
         depends_on:
             - db
         command: >
-            /scripts/wait-for-db.sh
             freqtrade trade
             --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
             --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_bitget_x5_spot_db
             --config /freqtrade/user_data/configs/BitgetX5Spot.json
+            --db-retry-count 20
+            --db-retry-wait 5
             --strategy NostalgiaForInfinityX5
 
 networks:
