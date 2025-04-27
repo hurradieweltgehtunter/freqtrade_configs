@@ -12,7 +12,7 @@ services:
             POSTGRES_DB: freqtrade_db
             DATABASES: freqtrade_binance_x5_spot_db,freqtrade_bitget_x5_spot_db
         volumes:
-            - ./postgres-data:/var/lib/postgresql/data
+            - /home/holu/docker-volumes/postgres-data:/var/lib/postgresql/data
             - ./freqtrade_configs/scripts:/scripts:ro
         networks:
             - freqtrade-net
