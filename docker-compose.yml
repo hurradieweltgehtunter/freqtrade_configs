@@ -14,14 +14,14 @@ services:
             DATABASES: freqtrade_binance_x5_spot_db,freqtrade_bitget_x5_spot_db
         volumes:
             - ./postgres-data:/var/lib/postgresql/data
-            - ./scripts:/scripts:ro
+            - ./freqtrade_configs/scripts:/scripts:ro
         networks:
             - freqtrade-net
         command:
             [
                 'bash',
                 '-c',
-                'docker-entrypoint.sh postgres & /scripts/init-db.sh',
+                'docker-entrypoint.sh postgres & /freqtrade_configs/scripts/init-db.sh',
             ]
         healthcheck:
             test: ['CMD', 'pg_isready', '-U', 'freqtrade']
