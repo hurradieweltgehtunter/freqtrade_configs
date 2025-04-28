@@ -126,12 +126,11 @@ echo "" >> "$LOGFILE"
 
 # ==== Freqtrade Bots neu laden ====
 for BOT in "${BOTS[@]}"; do
-    echo "♻️ Reload Config für $BOT..." >> "$LOGFILE"
-
-    if docker exec "$BOT" python3 /freqtrade/scripts/rest_client.py --config "/freqtrade/user_data/configs/${BOT}.json" reload_config >> "$LOGFILE" 2>&1; then
-        echo "✅ Reload Config erfolgreich für $BOT." >> "$LOGFILE"
+    echo "♻️ Starte Container $BOT neu, um Config und Strategie zu laden..." >> "$LOGFILE"
+    if docker restart "$BOT" >> "$LOGFILE" 2>&1; then
+        echo "✅ Container $BOT erfolgreich neu gestartet." >> "$LOGFILE"
     else
-        echo "❌ Fehler beim Reload Config für $BOT." >> "$LOGFILE"
+        echo "❌ Fehler beim Neustart des Containers $BOT." >> "$LOGFILE"
     fi
 done
 
