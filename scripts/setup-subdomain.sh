@@ -63,7 +63,7 @@ server {
 
         # CORS-Header für alle Anfragen
         add_header Access-Control-Allow-Origin \$http_origin always;
-        
+        add_header Access-Control-Allow-Credentials true always;
         add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE" always;
         add_header Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With" always;
 
@@ -76,8 +76,6 @@ server {
             add_header Content-Length 0;
             add_header Content-Type text/plain;
             return 204;
-        } else {
-            add_header Access-Control-Allow-Credentials true always;
         }
     }
 }
