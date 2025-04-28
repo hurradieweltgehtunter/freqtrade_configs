@@ -41,8 +41,8 @@ server {
     listen 80;
     server_name $FULL_DOMAIN;
 
-    # Leite HTTP auf HTTPS um
-    return 301 https://\$host\$request_uri;
+    # Weiterleitung auf HTTPS
+    return 301 https://$host$request_uri;
 }
 
 server {
@@ -51,36 +51,36 @@ server {
 
     ssl_certificate /etc/letsencrypt/live/$FULL_DOMAIN/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$FULL_DOMAIN/privkey.pem;
-
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
 
-    # Dynamisches CORS erlauben
-    add_header Access-Control-Allow-Origin * always;
-    add_header Access-Control-Allow-Credentials true always;
-    add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
-    add_header Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With" always;
-    
     location / {
         proxy_pass http://127.0.0.1:$PORT;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-    }
 
-    # Preflight OPTIONS Requests richtig beantworten
-    if (\$request_method = OPTIONS ) {
+        # Websocket-Support
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # CORS-Header für alle Anfragen
         add_header Access-Control-Allow-Origin * always;
-        add_header Access-Control-Allow-Credentials true always;
-        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
+        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE" always;
         add_header Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With" always;
-        add_header Content-Length 0;
-        add_header Content-Type text/plain;
-        return 204;
+
+        # Spezielle Behandlung für Preflight (OPTIONS)
+        if ($request_method = OPTIONS) {
+            add_header Access-Control-Allow-Origin *;
+            add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE";
+            add_header Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With";
+            add_header Content-Length 0;
+            add_header Content-Type text/plain;
+            return 204;
+        }
     }
 }
 EOF
