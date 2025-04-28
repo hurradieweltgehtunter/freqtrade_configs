@@ -136,5 +136,5 @@ services:
             --strategy NostalgiaForInfinityX5
 
 networks:
-freqtrade-net:
-    name: freqtrade-net
+    freqtrade-net:
+        name: freqtrade-net
