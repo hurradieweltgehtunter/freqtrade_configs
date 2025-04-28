@@ -126,8 +126,6 @@ echo "===== Update abgeschlossen am $(date) =====" >> "$LOGFILE"
 echo "" >> "$LOGFILE"
 
 # ==== Freqtrade Bots neu laden ====
-
-
 for BOT in "${BOTS[@]}"; do
     echo "🔄 Reload Config für $BOT..." >> "$LOGFILE"
     docker exec "$BOT" freqtrade client reload_config >> "$LOGFILE" 2>&1
@@ -135,3 +133,6 @@ for BOT in "${BOTS[@]}"; do
     echo "♻️ Reload Strategy für $BOT..." >> "$LOGFILE"
     docker exec "$BOT" freqtrade client reload_strategy >> "$LOGFILE" 2>&1
 done
+
+# ==== update.sh erneut ausführbar machen (falls durch Git überschrieben) ====
+chmod +x "$CONFIG_REPO/update.sh"
