@@ -55,6 +55,12 @@ server {
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
 
+    # Dynamisches CORS erlauben
+    add_header Access-Control-Allow-Origin * always;
+    add_header Access-Control-Allow-Credentials true always;
+    add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
+    add_header Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With" always;
+    
     location / {
         proxy_pass http://127.0.0.1:$PORT;
         proxy_http_version 1.1;
@@ -64,17 +70,11 @@ server {
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
-
-        # Dynamisches CORS erlauben
-        add_header Access-Control-Allow-Origin \$http_origin always;
-        add_header Access-Control-Allow-Credentials true always;
-        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
-        add_header Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With" always;
     }
 
     # Preflight OPTIONS Requests richtig beantworten
     if (\$request_method = OPTIONS ) {
-        add_header Access-Control-Allow-Origin \$http_origin always;
+        add_header Access-Control-Allow-Origin * always;
         add_header Access-Control-Allow-Credentials true always;
         add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
         add_header Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With" always;
