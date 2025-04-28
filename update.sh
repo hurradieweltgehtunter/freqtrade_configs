@@ -1,10 +1,16 @@
+
 #!/bin/bash
+# Dieses Script aktualisiert Configs und Strategien und führt Reloads der laufenden Bots durch.
 
 BASE_DIR="/home/holu/freqtrade"
 CONFIG_REPO="$BASE_DIR/freqtrade_configs"
 USER_DATA="$BASE_DIR/user_data"
 NFI_DIR="$USER_DATA/strategies/NostalgiaForInfinity"
 
+# Liste der Bot-Container
+BOTS=("BinanceX5Spot" "BitgetX5Spot" "GateioX5Spot")
+
+# ==== Logfile erstellen ====
 if [ ! -d "$USER_DATA/logs" ]; then
     mkdir -p "$USER_DATA/logs"
 fi
@@ -118,3 +124,14 @@ fi
 
 echo "===== Update abgeschlossen am $(date) =====" >> "$LOGFILE"
 echo "" >> "$LOGFILE"
+
+# ==== Freqtrade Bots neu laden ====
+
+
+for BOT in "${BOTS[@]}"; do
+    echo "🔄 Reload Config für $BOT..." >> "$LOGFILE"
+    docker exec "$BOT" freqtrade client reload_config >> "$LOGFILE" 2>&1
+
+    echo "♻️ Reload Strategy für $BOT..." >> "$LOGFILE"
+    docker exec "$BOT" freqtrade client reload_strategy >> "$LOGFILE" 2>&1
+done

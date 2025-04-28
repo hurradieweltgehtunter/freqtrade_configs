@@ -115,6 +115,15 @@ sudo freqtrade_configs/scripts/setup-subdomain.sh kraken-x5-spot 8084
 • Richtet HTTPS-Weiterleitung korrekt ein.
 • Lädt Nginx neu.
 
+### Neuen Bot im update script eintragen
+```
+freqtrade_configs/update.sh
+
+BOTS=("BinanceX5Spot" "BitgetX5Spot" "GateioX5Spot")
+```
+Die Liste der Bots erweitern um neuen Bot.
+
+
 ### Docker Compose neu starten
 
 Jetzt bringst du alles ans Laufen:
