@@ -32,6 +32,7 @@
         "name": "binance",
         "key": "",
         "secret": "",
+        "enable_ws": true,
         "ccxt_config": {},
         "ccxt_async_config": {}
     },
