@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # Dieses Script aktualisiert Configs und Strategien und führt Reloads der laufenden Bots durch.
 

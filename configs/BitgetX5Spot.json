@@ -32,6 +32,7 @@
         "name": "bitget",
         "key": "",
         "secret": "",
+        "password": "",
         "ccxt_config": {},
         "ccxt_async_config": {}
     },
@@ -49,8 +50,8 @@
         "jwt_secret_key": "bae69e8bebc3fded80256a4676b8752eac19b6d46a914de8b75833e14252f256",
         "ws_token": "ocZXkODhZPsk7-qNrI3pDQVVX9R4w0YiDg",
         "CORS_origins": [],
-        "username": "freqtrader",
-        "password": "freqtrader"
+        "username": "",
+        "password": ""
     },
     "bot_name": "BitgetX5Spot",
     "initial_state": "running",
