@@ -128,10 +128,18 @@ echo "" >> "$LOGFILE"
 # ==== Freqtrade Bots neu laden ====
 for BOT in "${BOTS[@]}"; do
     echo "🔄 Reload Config für $BOT..." >> "$LOGFILE"
-    docker exec "$BOT" freqtrade client reload_config >> "$LOGFILE" 2>&1
+    if docker exec "$BOT" freqtrade scripts/rest_client.py --config "/freqtrade/user_data/configs/${BOT}.json" reload_config >> "$LOGFILE" 2>&1; then
+        echo "✅ Reload Config erfolgreich für $BOT." >> "$LOGFILE"
+    else
+        echo "❌ Fehler beim Reload Config für $BOT." >> "$LOGFILE"
+    fi
 
     echo "♻️ Reload Strategy für $BOT..." >> "$LOGFILE"
-    docker exec "$BOT" freqtrade client reload_strategy >> "$LOGFILE" 2>&1
+    if docker exec "$BOT" freqtrade scripts/rest_client.py --config "/freqtrade/user_data/configs/${BOT}.json" reload_strategy >> "$LOGFILE" 2>&1 ; then
+        echo "✅ Reload Strategy erfolgreich für $BOT." >> "$LOGFILE"
+    else
+        echo "❌ Fehler beim Reload Strategy für $BOT." >> "$LOGFILE"
+    fi
 done
 
 # ==== update.sh erneut ausführbar machen (falls durch Git überschrieben) ====
