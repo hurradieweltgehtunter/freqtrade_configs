@@ -62,6 +62,8 @@ services:
             - PYTHONUNBUFFERED=1
             - WAITFORIT_SERVICE=db
             - WAITFORIT_PORT=5432
+            - FREQTRADE__API_SERVER__USERNAME=freqtrader
+            - FREQTRADE__API_SERVER__PASSWORD=fqpassword
         ports:
             - '127.0.0.1:8081:8080'
         networks:
