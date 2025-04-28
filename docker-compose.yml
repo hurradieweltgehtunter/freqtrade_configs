@@ -21,114 +21,119 @@ services:
             interval: 30s
             timeout: 10s
             retries: 5
+        command: bash -c "
+            docker-entrypoint.sh postgres &
+            /docker-entrypoint-initdb.d/init-db.sh &&
+            wait
+            "
 
-    # WATCHDOG: Check Freqtrade health bots and restart if they are not running
-    watchdog:
-        build:
-            context: .
-            dockerfile: Dockerfile.watchdog
-        container_name: freqtrade_watchdog
-        restart: always
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - ./freqtrade_configs/scripts:/scripts:ro
-        networks:
-            - freqtrade-net
-        environment:
-            - WATCHDOG_INTERVAL=60
-        depends_on:
-            - BinanceX5Spot
-            - BitgetX5Spot
+        # WATCHDOG: Check Freqtrade health bots and restart if they are not running
+        watchdog:
+            build:
+                context: .
+                dockerfile: Dockerfile.watchdog
+            container_name: freqtrade_watchdog
+            restart: always
+            volumes:
+                - /var/run/docker.sock:/var/run/docker.sock
+                - ./freqtrade_configs/scripts:/scripts:ro
+            networks:
+                - freqtrade-net
+            environment:
+                - WATCHDOG_INTERVAL=60
+            depends_on:
+                - BinanceX5Spot
+                - BitgetX5Spot
 
-    BinanceX5Spot:
-        build:
-            context: .
-            dockerfile: Dockerfile.custom
-        image: freqtradeorg/freqtrade:stable
-        container_name: BinanceX5Spot
-        restart: always
-        volumes:
-            - ./user_data:/freqtrade/user_data
-            - ./freqtrade_configs/scripts:/scripts:ro
-            - /etc/localtime:/etc/localtime:ro
-        env_file:
-            - .env
-        environment:
-            - PYTHONUNBUFFERED=1
-            - WAITFORIT_SERVICE=db
-            - WAITFORIT_PORT=5432
-        ports:
-            - '127.0.0.1:8081:8080'
-        networks:
-            - freqtrade-net
-        depends_on:
-            - db
-        command: >
-            trade
-            --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
-            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
-            --config /freqtrade/user_data/configs/BinanceX5Spot.json
-            --strategy NostalgiaForInfinityX5
+        BinanceX5Spot:
+            build:
+                context: .
+                dockerfile: Dockerfile.custom
+            image: freqtradeorg/freqtrade:stable
+            container_name: BinanceX5Spot
+            restart: always
+            volumes:
+                - ./user_data:/freqtrade/user_data
+                - ./freqtrade_configs/scripts:/scripts:ro
+                - /etc/localtime:/etc/localtime:ro
+            env_file:
+                - .env
+            environment:
+                - PYTHONUNBUFFERED=1
+                - WAITFORIT_SERVICE=db
+                - WAITFORIT_PORT=5432
+            ports:
+                - '127.0.0.1:8081:8080'
+            networks:
+                - freqtrade-net
+            depends_on:
+                - db
+            command: >
+                trade
+                --logfile /freqtrade/user_data/logs/BinanceX5Spot.log
+                --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_binance_x5_spot_db
+                --config /freqtrade/user_data/configs/BinanceX5Spot.json
+                --strategy NostalgiaForInfinityX5
 
-    BitgetX5Spot:
-        build:
-            context: .
-            dockerfile: Dockerfile.custom
-        image: freqtradeorg/freqtrade:stable
-        container_name: BitgetX5Spot
-        restart: always
-        volumes:
-            - ./user_data:/freqtrade/user_data
-            - ./freqtrade_configs/scripts:/scripts:ro
-            - /etc/localtime:/etc/localtime:ro
-        env_file:
-            - .env
-        environment:
-            - PYTHONUNBUFFERED=1
-            - WAITFORIT_SERVICE=db
-            - WAITFORIT_PORT=5432
-        ports:
-            - '127.0.0.1:8082:8080'
-        networks:
-            - freqtrade-net
-        depends_on:
-            - db
-        command: >
-            trade
-            --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
-            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_bitget_x5_spot_db
-            --config /freqtrade/user_data/configs/BitgetX5Spot.json
-            --strategy NostalgiaForInfinityX5
+        BitgetX5Spot:
+            build:
+                context: .
+                dockerfile: Dockerfile.custom
+            image: freqtradeorg/freqtrade:stable
+            container_name: BitgetX5Spot
+            restart: always
+            volumes:
+                - ./user_data:/freqtrade/user_data
+                - ./freqtrade_configs/scripts:/scripts:ro
+                - /etc/localtime:/etc/localtime:ro
+            env_file:
+                - .env
+            environment:
+                - PYTHONUNBUFFERED=1
+                - WAITFORIT_SERVICE=db
+                - WAITFORIT_PORT=5432
+            ports:
+                - '127.0.0.1:8082:8080'
+            networks:
+                - freqtrade-net
+            depends_on:
+                - db
+            command: >
+                trade
+                --logfile /freqtrade/user_data/logs/BitgetX5Spot.log
+                --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_bitget_x5_spot_db
+                --config /freqtrade/user_data/configs/BitgetX5Spot.json
+                --strategy NostalgiaForInfinityX5
 
-    GateioX5Spot:
-        build:
-            context: .
-            dockerfile: Dockerfile.custom
-        image: freqtradeorg/freqtrade:stable
-        container_name: GateioX5Spot
-        restart: always
-        volumes:
-            - ./user_data:/freqtrade/user_data
-            - ./freqtrade_configs/scripts:/scripts:ro
-            - /etc/localtime:/etc/localtime:ro
-        env_file:
-            - .env
-        environment:
-            - PYTHONUNBUFFERED=1
-            - WAITFORIT_SERVICE=db
-            - WAITFORIT_PORT=5432
-        ports:
-            - '127.0.0.1:8083:8080'
-        networks:
-            - freqtrade-net
-        depends_on:
-            - db
-        command: >
-            trade
-            --logfile /freqtrade/user_data/logs/GateioX5Spot.log
-            --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_gateio_x5_spot_db
-            --config /freqtrade/user_data/configs/GateioX5Spot.json
-            --strategy NostalgiaForInfinityX5
+        GateioX5Spot:
+            build:
+                context: .
+                dockerfile: Dockerfile.custom
+            image: freqtradeorg/freqtrade:stable
+            container_name: GateioX5Spot
+            restart: always
+            volumes:
+                - ./user_data:/freqtrade/user_data
+                - ./freqtrade_configs/scripts:/scripts:ro
+                - /etc/localtime:/etc/localtime:ro
+            env_file:
+                - .env
+            environment:
+                - PYTHONUNBUFFERED=1
+                - WAITFORIT_SERVICE=db
+                - WAITFORIT_PORT=5432
+            ports:
+                - '127.0.0.1:8083:8080'
+            networks:
+                - freqtrade-net
+            depends_on:
+                - db
+            command: >
+                trade
+                --logfile /freqtrade/user_data/logs/GateioX5Spot.log
+                --db-url postgresql+psycopg2://freqtrade:fr3qtrade@db:5432/freqtrade_gateio_x5_spot_db
+                --config /freqtrade/user_data/configs/GateioX5Spot.json
+                --strategy NostalgiaForInfinityX5
 
 networks:
     freqtrade-net:
