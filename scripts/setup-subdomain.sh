@@ -1,61 +1,55 @@
 #!/bin/bash
 
-# Script zum Anlegen einer neuen Subdomain-Weiterleitung mit SSL und CORS für Freqtrade-Bots
-
-# -----------------------------------
-# 1. Eingabe prüfen
-# -----------------------------------
+# Prüfen ob 2 Parameter übergeben wurden
 if [ "$#" -ne 2 ]; then
     echo "Usage: $0 <subdomain> <port>"
     exit 1
 fi
 
+# Übergabeparameter
 SUBDOMAIN=$1
 PORT=$2
 DOMAIN="florianlenz.com"
 FULL_DOMAIN="$SUBDOMAIN.$DOMAIN"
 
+# Pfade
 CONFIG_FILE="/etc/nginx/sites-available/$SUBDOMAIN"
 SYMLINK_FILE="/etc/nginx/sites-enabled/$SUBDOMAIN"
 
-# -----------------------------------
-# 2. Alte Configs aufräumen
-# -----------------------------------
+# 0. Alte Config löschen, falls vorhanden
 if [ -f "$CONFIG_FILE" ]; then
-    echo "🗑 Entferne alte NGINX-Config für $FULL_DOMAIN..."
+    echo "🗑 Alte Config-Datei für $FULL_DOMAIN gefunden. Lösche sie..."
     sudo rm "$CONFIG_FILE"
 fi
 
 if [ -L "$SYMLINK_FILE" ]; then
-    echo "🗑 Entferne alten Symlink für $FULL_DOMAIN..."
+    echo "🗑 Alter Symlink für $FULL_DOMAIN gefunden. Lösche ihn..."
     sudo rm "$SYMLINK_FILE"
 fi
 
-# -----------------------------------
-# 3. Neue NGINX-Config erstellen
-# -----------------------------------
+# 1. Neue NGINX Config erstellen
 echo "🛠 Erstelle neue NGINX-Config für $FULL_DOMAIN auf Port $PORT..."
 
 sudo tee "$CONFIG_FILE" > /dev/null <<EOF
 server {
     listen 80;
-    server_name \$FULL_DOMAIN;
+    server_name $FULL_DOMAIN;
 
     # Weiterleitung auf HTTPS
-    return 301 https://\$host$request_uri;
+    return 301 https://\$host\$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name \$FULL_DOMAIN;
+    server_name $FULL_DOMAIN;
 
-    ssl_certificate /etc/letsencrypt/live/\$FULL_DOMAIN/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/\$FULL_DOMAIN/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/$FULL_DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$FULL_DOMAIN/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
 
     location / {
-        proxy_pass http://127.0.0.1:\$PORT;
+        proxy_pass http://127.0.0.1:$PORT;
         proxy_http_version 1.1;
 
         # Websocket-Support
@@ -85,32 +79,26 @@ server {
 }
 EOF
 
-# -----------------------------------
-# 4. Symlink setzen
-# -----------------------------------
-echo "🔗 Setze Symlink..."
+# 2. Neuen Symlink setzen
 sudo ln -s "$CONFIG_FILE" "$SYMLINK_FILE"
+echo "✅ Neuer Symlink für $FULL_DOMAIN erstellt."
 
-# -----------------------------------
-# 5. NGINX testen und neu laden
-# -----------------------------------
-echo "🔍 Teste neue NGINX-Config..."
+# 3. NGINX Config testen und reloaden
+echo "🔍 Teste NGINX Config..."
 if sudo nginx -t; then
-    echo "🔄 Lade NGINX neu..."
+    echo "🔄 Reload NGINX..."
     sudo systemctl reload nginx
 else
     echo "❌ Fehler in NGINX-Config. Abbruch."
     exit 1
 fi
 
-# -----------------------------------
-# 6. SSL-Zertifikat prüfen/erstellen
-# -----------------------------------
+# 4. SSL-Zertifikat prüfen oder erstellen
 if sudo certbot certificates | grep -q "$FULL_DOMAIN"; then
-    echo "🔒 Zertifikat für $FULL_DOMAIN existiert bereits. Versuche Erneuerung..."
+    echo "🔒 Zertifikat für $FULL_DOMAIN existiert bereits. Erneuere falls nötig..."
     sudo certbot renew --cert-name "$FULL_DOMAIN"
 else
-    echo "🆕 Fordere neues SSL-Zertifikat an für $FULL_DOMAIN..."
+    echo "🆕 Fordere neues SSL-Zertifikat für $FULL_DOMAIN an..."
     sudo certbot --nginx -d "$FULL_DOMAIN"
 fi
 
