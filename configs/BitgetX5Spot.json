@@ -3,7 +3,7 @@
     "strategy": "NostalgiaForInfinityX5",
     "add_config_files": [
         "../strategies/NostalgiaForInfinity/configs/trading_mode-spot.json",
-        "../strategies/NostalgiaForInfinity/configs/pairlist-volume-bitget-usdt.json",
+        "./pairlist.bitget.json",
         "../strategies/NostalgiaForInfinity/configs/blacklist-bitget.json",
         "./wallet.bitget.hot.json"
     ],
