@@ -27,13 +27,27 @@ if [ -L "$SYMLINK_FILE" ]; then
     sudo rm "$SYMLINK_FILE"
 fi
 
-# 1. Neue NGINX Config erstellen
+# 1. Neue NGINX-Config erstellen
 echo "🛠 Erstelle neue NGINX-Config für $FULL_DOMAIN auf Port $PORT..."
 
 sudo tee "$CONFIG_FILE" > /dev/null <<EOF
 server {
     listen 80;
     server_name $FULL_DOMAIN;
+
+    # Leite HTTP auf HTTPS um
+    return 301 https://\$host\$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name $FULL_DOMAIN;
+
+    ssl_certificate /etc/letsencrypt/live/$FULL_DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$FULL_DOMAIN/privkey.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
 
     location / {
         proxy_pass http://127.0.0.1:$PORT;
