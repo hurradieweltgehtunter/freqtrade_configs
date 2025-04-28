@@ -14,9 +14,21 @@ FULL_DOMAIN="$SUBDOMAIN.$DOMAIN"
 
 # Pfade
 CONFIG_FILE="/etc/nginx/sites-available/$SUBDOMAIN"
+SYMLINK_FILE="/etc/nginx/sites-enabled/$SUBDOMAIN"
 
-# 1. NGINX Config erstellen
-echo "🛠 Erstelle NGINX-Config für $FULL_DOMAIN auf Port $PORT..."
+# 0. Alte Config löschen, falls vorhanden
+if [ -f "$CONFIG_FILE" ]; then
+    echo "🗑 Alte Config-Datei für $FULL_DOMAIN gefunden. Lösche sie..."
+    sudo rm "$CONFIG_FILE"
+fi
+
+if [ -L "$SYMLINK_FILE" ]; then
+    echo "🗑 Alter Symlink für $FULL_DOMAIN gefunden. Lösche ihn..."
+    sudo rm "$SYMLINK_FILE"
+fi
+
+# 1. Neue NGINX Config erstellen
+echo "🛠 Erstelle neue NGINX-Config für $FULL_DOMAIN auf Port $PORT..."
 
 sudo tee "$CONFIG_FILE" > /dev/null <<EOF
 server {
@@ -26,7 +38,7 @@ server {
     location / {
         proxy_pass http://127.0.0.1:$PORT;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
@@ -36,24 +48,23 @@ server {
 }
 EOF
 
-# 2. Symlink setzen (nur wenn noch nicht vorhanden)
-if [ ! -e "/etc/nginx/sites-enabled/$SUBDOMAIN" ]; then
-    sudo ln -s "$CONFIG_FILE" "/etc/nginx/sites-enabled/$SUBDOMAIN"
-    echo "✅ Symlink für $SUBDOMAIN gesetzt."
-else
-    echo "ℹ️  Symlink für $SUBDOMAIN existiert bereits."
-fi
+# 2. Neuen Symlink setzen
+sudo ln -s "$CONFIG_FILE" "$SYMLINK_FILE"
+echo "✅ Neuer Symlink für $FULL_DOMAIN erstellt."
 
 # 3. NGINX Config testen und reloaden
 echo "🔍 Teste NGINX Config..."
-sudo nginx -t
+if sudo nginx -t; then
+    echo "🔄 Reload NGINX..."
+    sudo systemctl reload nginx
+else
+    echo "❌ Fehler in NGINX-Config. Abbruch."
+    exit 1
+fi
 
-echo "🔄 Reload NGINX..."
-sudo systemctl reload nginx
-
-# 4. Prüfen, ob bereits ein Zertifikat existiert
+# 4. SSL-Zertifikat prüfen oder erstellen
 if sudo certbot certificates | grep -q "$FULL_DOMAIN"; then
-    echo "🔒 Zertifikat für $FULL_DOMAIN existiert bereits. Erneuern falls nötig..."
+    echo "🔒 Zertifikat für $FULL_DOMAIN existiert bereits. Erneuere falls nötig..."
     sudo certbot renew --cert-name "$FULL_DOMAIN"
 else
     echo "🆕 Fordere neues SSL-Zertifikat für $FULL_DOMAIN an..."
