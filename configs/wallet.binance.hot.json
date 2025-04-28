@@ -4,5 +4,6 @@
     "stake_amount": "unlimited",
     "fiat_display_currency": "USD",
     "available_capital": 1000,
-    "cancel_open_orders_on_exit": false
+    "cancel_open_orders_on_exit": false,
+    "dry_run": false
 }
