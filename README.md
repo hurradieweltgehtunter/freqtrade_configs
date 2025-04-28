@@ -1,5 +1,39 @@
 # freqtrade_configs
 
+## Server config
+### CLI
+1. Oh My Zsh installieren
+```
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+2. Powerlevel10k installieren
+
+```
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+3. Theme auf Powerlevel10k umstellen
+
+Öffne die .zshrc Datei:
+```
+nano ~/.zshrc
+```
+
+4. Suche die Zeile:
+```
+ZSH_THEME="robbyrussell"
+```
+Ändere auf
+```
+ZSH_THEME="powerlevel10k/powerlevel10k"
+```
+
+Starte Zsh neu:
+```
+exec zsh
+```
+
 ## Add new bot
 
 ### Docker-Compose erweitern
