@@ -5,6 +5,5 @@
     "tradable_balance_ratio": 0.99,
     "fiat_display_currency": "USD",
     "dry_run": false,
-    "available_capital": 1000,
     "cancel_open_orders_on_exit": false
 }
