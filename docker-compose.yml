@@ -56,6 +56,7 @@ services:
             - ./user_data:/freqtrade/user_data
             - ./freqtrade_configs/scripts:/scripts:ro
             - /etc/localtime:/etc/localtime:ro
+            - /etc/timezone:/etc/timezone:ro
         env_file:
             - .env
         environment:
@@ -96,6 +97,7 @@ services:
             - ./user_data:/freqtrade/user_data
             - ./freqtrade_configs/scripts:/scripts:ro
             - /etc/localtime:/etc/localtime:ro
+            - /etc/timezone:/etc/timezone:ro
         env_file:
             - .env
         environment:
@@ -136,6 +138,7 @@ services:
             - ./user_data:/freqtrade/user_data
             - ./freqtrade_configs/scripts:/scripts:ro
             - /etc/localtime:/etc/localtime:ro
+            - /etc/timezone:/etc/timezone:ro
         env_file:
             - .env
         environment:
