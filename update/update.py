@@ -5,7 +5,7 @@ import os
 import sys
 import importlib
 from pathlib import Path
-from update.config import LOGFILE, LOG_DIR, BASE_DIR, ACTIONS_DIR
+from config import LOGFILE, LOG_DIR, BASE_DIR, ACTIONS_DIR
 
 # === Setup Logging ===
 LOG_DIR.mkdir(parents=True, exist_ok=True)
