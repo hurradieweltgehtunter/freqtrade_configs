@@ -127,11 +127,14 @@ echo "" >> "$LOGFILE"
 # ==== Freqtrade Bots neu laden ====
 for BOT in "${BOTS[@]}"; do
     echo "♻️ Starte Container $BOT neu, um Config und Strategie zu laden..." >> "$LOGFILE"
-    if docker restart "$BOT" >> "$LOGFILE" 2>&1; then
-        echo "✅ Container $BOT erfolgreich neu gestartet." >> "$LOGFILE"
-    else
-        echo "❌ Fehler beim Neustart des Containers $BOT." >> "$LOGFILE"
-    fi
+    
+    curl -u $BINANCEX5SPOT_API_SERVER__USERNAME:$BINANCEX5SPOT_API_SERVER__PASSWORD http://localhost:8081/api/v1/reload_config -X POST
+
+    # if docker restart "$BOT" >> "$LOGFILE" 2>&1; then
+    #     echo "✅ Container $BOT erfolgreich neu gestartet." >> "$LOGFILE"
+    # else
+    #     echo "❌ Fehler beim Neustart des Containers $BOT." >> "$LOGFILE"
+    # fi
 done
 
 # ==== update.sh erneut ausführbar machen (falls durch Git überschrieben) ====

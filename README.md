@@ -1,6 +1,31 @@
 # freqtrade_configs
 
+## Setup this repo
+/update contains the update mechanism written in python. To enable it:
+```
+source .venv/bin/activate
+```
+
+```
+pip install -r requirements.txt
+```
+
+
 ## Server config
+
+curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+
+### UFW Firewall
+To                         Action      From
+--                         ------      ----
+2222                       ALLOW       Anywhere
+443/tcp                    ALLOW       Anywhere
+80/tcp                     ALLOW       Anywhere
+2222 (v6)                  ALLOW       Anywhere (v6)
+443/tcp (v6)               ALLOW       Anywhere (v6)
+80/tcp (v6)                ALLOW       Anywhere (v6)
+
+
 ### CLI
 1. Oh My Zsh installieren
 ```
