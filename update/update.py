@@ -10,16 +10,14 @@ from config import LOGFILE, LOG_DIR, BASE_DIR, ACTIONS_DIR
 # === Setup Logging ===
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
-logging.basicConfig(
-    filename=LOGFILE,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
-console = logging.StreamHandler(sys.stdout)
-console.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-console.setFormatter(formatter)
-logging.getLogger().addHandler(console)
+logger = logging.getLogger()
+if not logger.hasHandlers():
+    logging.basicConfig(
+        filename=LOGFILE,
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        handlers=[logging.StreamHandler(sys.stdout)]
+    )
 
 # === Load .env ===
 from dotenv import load_dotenv
