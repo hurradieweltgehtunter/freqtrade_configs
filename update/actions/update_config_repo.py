@@ -23,7 +23,10 @@ def run():
         logger.info("🔁 Keine Änderungen im Config-Repo gefunden.")
         return
 
-    logger.info("📂 Änderungen erkannt – starte Kopiervorgänge...")
+    commit_message = subprocess.check_output(["git", "log", "-1", "--pretty=%B"], cwd=CONFIG_REPO).decode().strip()
+
+    logger.info(f"📂 Änderungen erkannt – neuester commit: {commit_message}")
+    logger.info("Starte Kopiervorgänge…")
 
     deploy_configs = USER_DATA / "configs"
     if deploy_configs.exists():
