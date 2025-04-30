@@ -10,14 +10,21 @@ from config import LOGFILE, LOG_DIR, BASE_DIR, ACTIONS_DIR
 # === Setup Logging ===
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
+# Logging konfigurieren
 logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+# Verhindert doppelte Handler bei erneutem Aufruf
 if not logger.hasHandlers():
-    logging.basicConfig(
-        filename=LOGFILE,
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s",
-        handlers=[logging.StreamHandler(sys.stdout)]
-    )
+    file_handler = logging.FileHandler(LOGFILE)
+    console_handler = logging.StreamHandler()
+
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
+
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
 
 # === Load .env ===
 from dotenv import load_dotenv
