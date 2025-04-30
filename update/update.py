@@ -30,6 +30,9 @@ logger.addHandler(file_handler)
 logger.addHandler(console_handler)
 
 # === Load .env ===
+logger.info("")
+logger.info("===== Update gestartet =====")
+
 from dotenv import load_dotenv
 dotenv_path = BASE_DIR / ".env"
 if dotenv_path.exists():
@@ -43,8 +46,6 @@ else:
 sys.path.insert(0, str(ACTIONS_DIR))
 
 def run_actions():
-    logger.info("")
-    logger.info("===== Update gestartet =====")
     # Manuell festgelegte Reihenfolge der Actions
     actions_order = [
         "update_config_repo",
