@@ -1,7 +1,7 @@
 import os
 import logging
 import requests
-from update.config import BOTS
+from config import BOTS
 
 logger = logging.getLogger(__name__)
 
