@@ -16,14 +16,14 @@ STRATEGIES_DIR = USER_DATA / "strategies"
 NFI_DIR = STRATEGIES_DIR / "NostalgiaForInfinity"
 
 # Docker Container-Namen der Bots
-BOTS = [
-    "BinanceX5Spot",
-    "BitgetX5Spot",
-    "GateioX5Spot"
-]
+# BOTS = [
+#     "BinanceX5Spot",
+#     "BitgetX5Spot",
+#     "GateioX5Spot"
+# ]
 
 # Docker API Ports (Mapping: Containername → Port)
-BOT_PORTS = {
+BOTS = {
     "BinanceX5Spot": 8081,
     "BitgetX5Spot": 8082,
     "GateioX5Spot": 8083
