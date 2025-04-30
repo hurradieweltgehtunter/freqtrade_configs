@@ -48,18 +48,31 @@ def run_actions():
     # Manuell festgelegte Reihenfolge der Actions
     actions_order = [
         "update_config_repo",
-        "update_nfi_repo",
-        "reload_botconfigs"
+        "update_nfi_repo"
     ]
+
+    should_reload_config = False
 
     for module_name in actions_order:
         try:
             logger.info(f"➡️  Starte Aktion: {module_name}")
             module = importlib.import_module(module_name)
-            module.run()
+            result = module.run()
             logger.info(f"✅ Aktion abgeschlossen: {module_name}")
+            should_reload_config = should_reload_config or result
         except Exception as e:
             logger.error(f"❌ Fehler bei Aktion {module_name}: {e}")
+
+    if should_reload_config:
+        try:
+            logger.info("➡️  Starte Aktion: reload_botconfigs")
+            reload_module = importlib.import_module("reload_botconfigs")
+            reload_module.run()
+            logger.info("✅ Aktion abgeschlossen: reload_botconfigs")
+        except Exception as e:
+            logger.error(f"❌ Fehler bei Aktion reload_botconfigs: {e}")
+    else:
+        logger.info("ℹ️  reload_botconfigs übersprungen, da keine Updates gefunden wurden.")
 
     logger.info("===== Update abgeschlossen =====")
 
