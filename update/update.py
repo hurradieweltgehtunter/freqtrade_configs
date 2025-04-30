@@ -7,7 +7,7 @@ import importlib
 from pathlib import Path
 
 # === Setup Logging ===
-LOG_DIR = Path(__file__).resolve().parent.parent / "user_data" / "logs"
+LOG_DIR = Path(__file__).resolve().parent.parent.parent / "user_data" / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 LOGFILE = LOG_DIR / "update.log"
 
@@ -24,7 +24,7 @@ logging.getLogger().addHandler(console)
 
 # === Load .env ===
 from dotenv import load_dotenv
-dotenv_path = Path(__file__).resolve().parent.parent / ".env"
+dotenv_path = Path(__file__).resolve().parent.parent.parent / ".env"
 if dotenv_path.exists():
     load_dotenv(dotenv_path)
     logging.info("✅ .env geladen")
