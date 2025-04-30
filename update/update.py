@@ -5,11 +5,10 @@ import os
 import sys
 import importlib
 from pathlib import Path
+from update.config import LOGFILE, LOG_DIR, BASE_DIR, ACTIONS_DIR
 
 # === Setup Logging ===
-LOG_DIR = Path(__file__).resolve().parent.parent.parent / "user_data" / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
-LOGFILE = LOG_DIR / "update.log"
 
 logging.basicConfig(
     filename=LOGFILE,
@@ -24,7 +23,7 @@ logging.getLogger().addHandler(console)
 
 # === Load .env ===
 from dotenv import load_dotenv
-dotenv_path = Path(__file__).resolve().parent.parent.parent / ".env"
+dotenv_path = BASE_DIR / ".env"
 if dotenv_path.exists():
     load_dotenv(dotenv_path)
     logging.info("✅ .env geladen")
@@ -33,7 +32,6 @@ else:
     exit()
 
 # === Execute update actions ===
-ACTIONS_DIR = Path(__file__).resolve().parent / "actions"
 sys.path.insert(0, str(ACTIONS_DIR))
 
 def run_actions():

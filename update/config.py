@@ -2,13 +2,15 @@ from pathlib import Path
 import os
 
 # Basisverzeichnis deines Projekts
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Repos und wichtige Ordner
 CONFIG_REPO = BASE_DIR / "freqtrade_configs"
 USER_DATA = BASE_DIR / "user_data"
 LOG_DIR = USER_DATA / "logs"
+LOGFILE = LOG_DIR / "update.log"
 SCRIPTS_DIR = CONFIG_REPO / "scripts"
+ACTIONS_DIR = CONFIG_REPO / "update" / "actions"
 CONFIGS_DIR = CONFIG_REPO / "configs"
 STRATEGIES_DIR = USER_DATA / "strategies"
 NFI_DIR = STRATEGIES_DIR / "NostalgiaForInfinity"
