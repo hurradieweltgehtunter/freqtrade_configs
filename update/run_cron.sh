@@ -7,7 +7,8 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$PROJECT_DIR/.venv/bin/activate"
 
 # Abhängigkeiten installieren
-pip install --quiet --disable-pip-version-check -r "$PROJECT_DIR/requirements.txt"
+# pip install --quiet --disable-pip-version-check -r "$PROJECT_DIR/requirements.txt"
+python3 -m pip install --quiet --disable-pip-version-check -r "$PROJECT_DIR/requirements.txt"
 
 # Hauptskript ausführen
 python3 "$PROJECT_DIR/update.py"
