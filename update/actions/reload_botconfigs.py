@@ -22,8 +22,10 @@ def run():
         try:
             response = requests.post(url, auth=(username, password))
             if response.status_code == 200:
-                logger.info(f"✅ Reload erfolgreich für {bot_name}")
+                logger.info(f"✅ Reload erfolgreich für {bot_name}: {response.text}")
+                logger.debug(f"Antwortinhalt: {response.text}")
             else:
                 logger.warning(f"❌ Fehler beim Reload von {bot_name}: {response.status_code} - {response.text}")
+                logger.debug(f"Antwortinhalt: {response.text}")
         except Exception as e:
             logger.error(f"❌ API-Aufruf fehlgeschlagen für {bot_name}: {e}")
