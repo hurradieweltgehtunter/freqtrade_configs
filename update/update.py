@@ -29,7 +29,7 @@ if dotenv_path.exists():
     load_dotenv(dotenv_path)
     logging.info("✅ .env geladen")
 else:
-    logging.warning("⚠️  .env Datei nicht gefunden!" + dotenv_path)
+    logging.warning(f"⚠️  .env Datei nicht gefunden! {dotenv_path}")
     exit()
 
 # === Execute update actions ===
