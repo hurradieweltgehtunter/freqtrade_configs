@@ -24,12 +24,12 @@ logging.getLogger().addHandler(console)
 
 # === Load .env ===
 from dotenv import load_dotenv
-dotenv_path = Path(__file__).resolve().parent / ".env"
+dotenv_path = Path(__file__).resolve().parent.parent / ".env"
 if dotenv_path.exists():
     load_dotenv(dotenv_path)
     logging.info("✅ .env geladen")
 else:
-    logging.warning("⚠️  .env Datei nicht gefunden!")
+    logging.warning("⚠️  .env Datei nicht gefunden!" + dotenv_path)
     exit()
 
 # === Execute update actions ===
