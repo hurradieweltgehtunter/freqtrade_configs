@@ -37,9 +37,10 @@
         "ccxt_async_config": {}
     },
     "telegram": {
-        "enabled": false,
+        "enabled": true,
         "token": "",
-        "chat_id": ""
+        "chat_id": "",
+        "handle_signals": true
     },
     "api_server": {
         "enabled": true,
