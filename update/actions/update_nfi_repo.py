@@ -6,12 +6,12 @@ from config import BASE_DIR, USER_DATA, NFI_DIR, STRATEGIES_DIR
 
 logger = logging.getLogger(__name__)
 
-def run():
+def run() -> bool:
     logger.info("🔍 Prüfe NostalgiaForInfinity Repo...")
 
     if not NFI_DIR.exists():
         logger.error(f"❌ NFI Repo nicht gefunden unter {NFI_DIR}")
-        return
+        return False
 
     try:
         os.chdir(NFI_DIR)
@@ -20,11 +20,11 @@ def run():
         local_commit_after = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
     except subprocess.CalledProcessError as e:
         logger.error(f"❌ Fehler beim Pull des NFI Repos: {e}")
-        return
+        return False
 
     if local_commit_before == local_commit_after:
         logger.info("ℹ️  Keine Änderungen im NFI Repo. Überspringe Strategie-Update.")
-        return
+        return False
 
     logger.info("🔁 Änderungen erkannt. Aktualisiere Strategien...")
 
@@ -36,3 +36,5 @@ def run():
             logger.info(f"✅ {fname} erfolgreich kopiert.")
         else:
             logger.warning(f"⚠️  {fname} nicht gefunden.")
+
+    return True

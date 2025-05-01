@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 def run():
     if not CONFIG_REPO.exists():
         logger.error(f"❌ Freqtrade Config Repo nicht gefunden: {CONFIG_REPO}")
-        return
+        return False
 
     # Pull latest changes
     logger.info("📥 Aktualisiere freqtrade_configs Repo...")
@@ -21,7 +21,7 @@ def run():
 
     if local_commit_before == local_commit_after:
         logger.info("🔁 Keine Änderungen im Config-Repo gefunden.")
-        return
+        return False
 
     commit_message = subprocess.check_output(["git", "log", "-1", "--pretty=%B"], cwd=CONFIG_REPO).decode().strip()
 
@@ -57,3 +57,5 @@ def run():
         logger.info("🔧 Alle Skripte im 'scripts'-Ordner ausführbar gemacht.")
     else:
         logger.warning("⚠️ Kein 'scripts' Verzeichnis gefunden.")
+    
+    return True
