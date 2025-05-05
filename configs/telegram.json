@@ -1,0 +1,41 @@
+{
+    "telegram": {
+        "enabled": false,
+        "token": "",
+        "chat_id": "",
+        "allow_custom_messages": true,
+        "notification_settings": {
+            "status": "silent",
+            "warning": "on",
+            "startup": "off",
+            
+            "entry": "on",
+            "entry_fill": "on",
+            "entry_cancel": "on",
+
+            "exit": {
+                "roi": "on",
+                "emergency_exit": "on",
+                "force_exit": "on",
+                "exit_signal": "on",
+                "trailing_stop_loss": "on",
+                "stop_loss": "on",
+                "stoploss_on_exchange": "on",
+                "custom_exit": "on",
+                "partial_exit": "on",
+                "*": "off"
+            },
+
+            "exit_cancel": "on",
+            "exit_fill": "on",
+
+            "protection_trigger": "on",
+            "protection_trigger_global": "on",
+            "strategy_msg": "off",
+            "show_candle": "off"
+        },
+        "reload": true,
+        "balance_dust_level": 0.01,
+        "handle_signals": true
+    }
+}

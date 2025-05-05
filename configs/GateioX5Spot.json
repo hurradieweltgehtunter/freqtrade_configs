@@ -5,7 +5,8 @@
         "../strategies/NostalgiaForInfinity/configs/trading_mode-spot.json",
         "./pairlist.gateio.json",
         "../strategies/NostalgiaForInfinity/configs/blacklist-gateio.json",
-        "./wallet.gateio.dry.json"
+        "./wallet.gateio.dry.json",
+        "./telegram.json"
     ],
     "unfilledtimeout": {
         "entry": 10,
