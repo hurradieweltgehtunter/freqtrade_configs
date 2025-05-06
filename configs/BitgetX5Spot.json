@@ -6,7 +6,8 @@
         "./pairlist.bitget.json",
         "../strategies/NostalgiaForInfinity/configs/blacklist-bitget.json",
         "./wallet.bitget.hot.json",
-        "./telegram.json"
+        "./telegram.json",
+        "./webhook.json"
     ],
     "unfilledtimeout": {
         "entry": 10,
