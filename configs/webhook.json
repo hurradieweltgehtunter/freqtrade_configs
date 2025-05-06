@@ -3,7 +3,7 @@
         "enabled": true,
         "url": "",
         "entry": {
-            "action": "buy",
+            "action": "entry",
             "pair": "{pair}",
             "limit": "limit {limit:8f}",
             "stake": "{stake_amount:8f}",
@@ -11,7 +11,7 @@
             "exchange": "{exchange}"
         },
         "entry_cancel": {
-            "action": "buy_cancel",
+            "action": "entry_cancel",
             "pair": "{pair}",
             "limit": "{limit:8f}",
             "stake": "{stake_amount:8f}",
@@ -19,7 +19,7 @@
             "exchange": "{exchange}"
         },
          "entry_fill": {
-            "action": "buy_fill",
+            "action": "entry_fill",
             "pair": "{pair}",
             "open_rate": "{open_rate:8f}",
             "exchange": "{exchange}"
