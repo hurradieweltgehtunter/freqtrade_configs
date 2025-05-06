@@ -1,0 +1,60 @@
+{
+    "webhook": {
+        "enabled": true,
+        "url": "",
+        "entry": {
+            "action": "buy",
+            "pair": "{pair}",
+            "limit": "limit {limit:8f}",
+            "stake": "{stake_amount:8f}",
+            "stake_currency": "{stake_currency}",
+            "exchange": "{exchange}"
+        },
+        "entry_cancel": {
+            "action": "buy_cancel",
+            "pair": "{pair}",
+            "limit": "{limit:8f}",
+            "stake": "{stake_amount:8f}",
+            "stake_currency": "{stake_currency}",
+            "exchange": "{exchange}"
+        },
+         "entry_fill": {
+            "action": "buy_fill",
+            "pair": "{pair}",
+            "open_rate": "{open_rate:8f}",
+            "exchange": "{exchange}"
+        },
+        "exit": {
+            "action": "exit",
+            "pair": "{pair}",
+            "limit": "{limit:8f}",
+            "stake": "{stake_amount:8f}",
+            "stake_currency": "{stake_currency}",
+            "exchange": "{exchange}",
+            "profit_amount": "{profit_amount:8f}",
+            "profit_ratio": "{profit_ratio}"
+        },
+        "exit_cancel": {
+            "action": "exit_cancel",
+            "pair": "{pair}",
+            "limit": "{limit:8f}",
+            "stake": "{stake_amount:8f}",
+            "stake_currency": "{stake_currency}",
+            "exchange": "{exchange}",
+            "profit_amount": "{profit_amount:8f}",
+            "profit_ratio": "{profit_ratio}"
+        },
+        "exit_fill": {
+            "action": "exit_fill",
+            "pair": "{pair}",
+            "close_rate": "{close_rate:8f}.",
+            "profit_amount": "{profit_amount:8f}",
+            "profit_ratio": "{profit_ratio}",
+            "exchange": "{exchange}"
+        },
+        "status": {
+            "action": "status",
+            "status": "{status}"
+        }
+    }
+}
