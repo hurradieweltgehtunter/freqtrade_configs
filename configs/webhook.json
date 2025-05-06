@@ -50,7 +50,9 @@
             "close_rate": "{close_rate:8f}.",
             "profit_amount": "{profit_amount:8f}",
             "profit_ratio": "{profit_ratio}",
-            "exchange": "{exchange}"
+            "exchange": "{exchange}",
+            "open_date": "{open_date}",
+            "close_date": "{close_date}"
         },
         "status": {
             "action": "status",
