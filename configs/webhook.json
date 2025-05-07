@@ -4,6 +4,7 @@
         "url": "",
         "entry": {
             "action": "entry",
+            "trade_id": "{trade_id}",
             "pair": "{pair}",
             "limit": "limit {limit:8f}",
             "stake": "{stake_amount:8f}",
@@ -12,6 +13,7 @@
         },
         "entry_cancel": {
             "action": "entry_cancel",
+            "trade_id": "{trade_id}",
             "pair": "{pair}",
             "limit": "{limit:8f}",
             "stake": "{stake_amount:8f}",
@@ -20,12 +22,14 @@
         },
          "entry_fill": {
             "action": "entry_fill",
+            "trade_id": "{trade_id}",
             "pair": "{pair}",
             "open_rate": "{open_rate:8f}",
             "exchange": "{exchange}"
         },
         "exit": {
             "action": "exit",
+            "trade_id": "{trade_id}",
             "pair": "{pair}",
             "limit": "{limit:8f}",
             "stake": "{stake_amount:8f}",
@@ -36,6 +40,7 @@
         },
         "exit_cancel": {
             "action": "exit_cancel",
+            "trade_id": "{trade_id}",
             "pair": "{pair}",
             "limit": "{limit:8f}",
             "stake": "{stake_amount:8f}",
@@ -47,12 +52,12 @@
         "exit_fill": {
             "action": "exit_fill",
             "pair": "{pair}",
-            "close_rate": "{close_rate:8f}.",
-            "profit_amount": "{profit_amount:8f}",
-            "profit_ratio": "{profit_ratio:2f}",
             "exchange": "{exchange}",
+            "close_rate": "{close_rate:8f}.",
             "open_date": "{open_date}",
-            "close_date": "{close_date}"
+            "close_date": "{close_date}",
+            "trade_id": "{trade_id}",
+            "direction": "{direction}"
         },
         "status": {
             "action": "status",
