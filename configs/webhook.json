@@ -3,9 +3,7 @@
         "enabled": true,
         "url": "",
         "allow_custom_messages": true,
-        "strategy_msg": [{
-            "mandark_binance_spot_main": "{msg}"
-        }],
+
         "entry": {
             "action": "entry",
             "trade_id": "{trade_id}",
