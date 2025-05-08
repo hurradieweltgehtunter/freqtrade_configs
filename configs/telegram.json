@@ -4,6 +4,9 @@
         "token": "",
         "chat_id": "",
         "allow_custom_messages": true,
+        "strategy_msg": [{
+            "mandark_binance_spot_main": "{msg}"
+        }],
         "notification_settings": {
             "status": "silent",
             "warning": "on",
