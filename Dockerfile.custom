@@ -4,6 +4,8 @@ FROM freqtradeorg/freqtrade:stable
 RUN pip install --upgrade pip
 RUN pip install psycopg2-binary
 
+RUN chmod +x "./freqtrade_configs/scripts/"*
+
 # FROM freqtradeorg/freqtrade:stable
 
 # COPY ./freqtrade_configs/scripts/wait-for-it.sh /scripts/wait-for-it.sh
