@@ -1,11 +1,21 @@
 version: '3.8'
 
 services:
+    make-scripts-executable:
+        image: alpine:latest
+        container_name: make_scripts_executable
+        volumes:
+          - ./freqtrade_configs/scripts:/scripts
+        entrypoint: ["/bin/sh", "-c", "chmod +x /scripts/*.sh && echo '[Init] Scripts made executable'"]
+        restart: "no"
+
     db:
         image: postgres:16
         container_name: postgres
         restart: always
         shm_size: 512mb
+        depends_on:
+          - make-scripts-executable
         environment:
             POSTGRES_USER: freqtrade
             POSTGRES_PASSWORD: fr3qtrade
