@@ -1,9 +1,13 @@
 {
     "webhook": {
         "enabled": true,
+        "format": "json",
         "url": "",
         "allow_custom_messages": true,
-
+        "strategy_msg": {
+            "Event": "Strategy Message",
+            "Message": "{msg}"
+        },
         "entry": {
             "action": "entry",
             "trade_id": "{trade_id}",

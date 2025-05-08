@@ -4,7 +4,10 @@
         "token": "",
         "chat_id": "",
         "allow_custom_messages": true,
-
+        "strategy_msg": {
+            "Event": "Strategy Message",
+            "Message": "{msg}"
+        },
         "notification_settings": {
             "status": "silent",
             "warning": "on",
