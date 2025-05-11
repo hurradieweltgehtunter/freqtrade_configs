@@ -7,7 +7,7 @@ USER_DATA="$BASE_DIR/user_data"
 NFI_DIR="$USER_DATA/strategies/NostalgiaForInfinity"
 
 # Liste der Bot-Container
-BOTS=("BinanceX5Spot" "BitgetX5Spot" "GateioX5Spot")
+BOTS=("BinanceX5Spot" "BitgetX5Spot" "GateioX5Spot", "BitgetX6Spot")
 
 # ==== Logfile erstellen ====
 if [ ! -d "$USER_DATA/logs" ]; then

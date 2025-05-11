@@ -16,6 +16,9 @@ FULL_DOMAIN="$SUBDOMAIN.$DOMAIN"
 CONFIG_FILE="/etc/nginx/sites-available/$SUBDOMAIN"
 SYMLINK_FILE="/etc/nginx/sites-enabled/$SUBDOMAIN"
 
+# Zertifikatspfad
+CERT_PATH="/etc/letsencrypt/live/$FULL_DOMAIN/fullchain.pem"
+
 # 0. Alte Config löschen, falls vorhanden
 if [ -f "$CONFIG_FILE" ]; then
     echo "🗑 Alte Config-Datei für $FULL_DOMAIN gefunden. Lösche sie..."
@@ -27,7 +30,15 @@ if [ -L "$SYMLINK_FILE" ]; then
     sudo rm "$SYMLINK_FILE"
 fi
 
-# 1. Neue NGINX Config erstellen
+# 1. Zertifikat holen (falls noch nicht vorhanden)
+if [ ! -f "$CERT_PATH" ]; then
+    echo "🔑 Kein Zertifikat für $FULL_DOMAIN gefunden. Fordere es an..."
+    sudo certbot --nginx --non-interactive --agree-tos --email hi@florianlenz.com -d "$FULL_DOMAIN"
+else
+    echo "✅ Zertifikat für $FULL_DOMAIN existiert bereits."
+fi
+
+# 2. Neue NGINX Config erstellen
 echo "🛠 Erstelle neue NGINX-Config für $FULL_DOMAIN auf Port $PORT..."
 
 sudo tee "$CONFIG_FILE" > /dev/null <<EOF
@@ -35,7 +46,6 @@ server {
     listen 80;
     server_name $FULL_DOMAIN;
 
-    # Weiterleitung auf HTTPS
     return 301 https://\$host\$request_uri;
 }
 
@@ -49,6 +59,10 @@ server {
     ssl_prefer_server_ciphers on;
 
     location / {
+        return 403;
+    }
+
+    location /api/vi/ {
         proxy_pass http://127.0.0.1:$PORT;
         proxy_http_version 1.1;
 
@@ -63,7 +77,6 @@ server {
 
         # CORS-Header für alle Anfragen
         add_header Access-Control-Allow-Origin \$http_origin always;
-        # add_header Access-Control-Allow-Credentials true always;
         add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE" always;
         add_header Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With" always;
 
@@ -81,20 +94,11 @@ server {
 }
 EOF
 
-# 2. Neuen Symlink setzen
+# 3. Symlink setzen
 sudo ln -s "$CONFIG_FILE" "$SYMLINK_FILE"
 echo "✅ Neuer Symlink für $FULL_DOMAIN erstellt."
 
-# 3. SSL-Zertifikat prüfen oder erstellen
-if sudo certbot certificates | grep -q "$FULL_DOMAIN"; then
-    echo "🔒 Zertifikat für $FULL_DOMAIN existiert bereits. Erneuere falls nötig..."
-    sudo certbot renew --cert-name "$FULL_DOMAIN"
-else
-    echo "🆕 Fordere neues SSL-Zertifikat für $FULL_DOMAIN an..."
-    sudo certbot --nginx -d "$FULL_DOMAIN"
-fi
-
-# 4. NGINX Config testen und reloaden
+# 4. NGINX testen und neu laden
 echo "🔍 Teste NGINX Config..."
 if sudo nginx -t; then
     echo "🔄 Reload NGINX..."
