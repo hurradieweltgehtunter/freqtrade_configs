@@ -85,7 +85,16 @@ EOF
 sudo ln -s "$CONFIG_FILE" "$SYMLINK_FILE"
 echo "✅ Neuer Symlink für $FULL_DOMAIN erstellt."
 
-# 3. NGINX Config testen und reloaden
+# 3. SSL-Zertifikat prüfen oder erstellen
+if sudo certbot certificates | grep -q "$FULL_DOMAIN"; then
+    echo "🔒 Zertifikat für $FULL_DOMAIN existiert bereits. Erneuere falls nötig..."
+    sudo certbot renew --cert-name "$FULL_DOMAIN"
+else
+    echo "🆕 Fordere neues SSL-Zertifikat für $FULL_DOMAIN an..."
+    sudo certbot --nginx -d "$FULL_DOMAIN"
+fi
+
+# 4. NGINX Config testen und reloaden
 echo "🔍 Teste NGINX Config..."
 if sudo nginx -t; then
     echo "🔄 Reload NGINX..."
@@ -93,15 +102,6 @@ if sudo nginx -t; then
 else
     echo "❌ Fehler in NGINX-Config. Abbruch."
     exit 1
-fi
-
-# 4. SSL-Zertifikat prüfen oder erstellen
-if sudo certbot certificates | grep -q "$FULL_DOMAIN"; then
-    echo "🔒 Zertifikat für $FULL_DOMAIN existiert bereits. Erneuere falls nötig..."
-    sudo certbot renew --cert-name "$FULL_DOMAIN"
-else
-    echo "🆕 Fordere neues SSL-Zertifikat für $FULL_DOMAIN an..."
-    sudo certbot --nginx -d "$FULL_DOMAIN"
 fi
 
 echo "🎉 Setup für $FULL_DOMAIN abgeschlossen!"
