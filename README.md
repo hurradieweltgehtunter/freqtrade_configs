@@ -30,6 +30,14 @@ To                         Action      From
 443/tcp (v6)               ALLOW       Anywhere (v6)
 80/tcp (v6)                ALLOW       Anywhere (v6)
 
+### Fail2Ban
+
+Ist installiert
+```
+sudo fail2ban-client status
+sudo fail2ban-client status sshd
+sudo tail -f /var/log/fail2ban.log
+```
 
 ### CLI
 1. Oh My Zsh installieren
@@ -107,6 +115,19 @@ Wichtig:
 -   Neuen Port zuweisen: z.B. 8084.
 -   Neue Datenbank angeben: z.B. freqtrade_kraken_x5_spot_db.
 
+### Postgres-Datenbank anlegen
+
+Trage die neue DB freqtrade_kraken_x5_spot_db in der DATABASES-Umgebungsvariable deines Postgres-Services in docker-compose.yml ein:
+
+Beispiel:
+
+```
+DATABASES: freqtrade_binance_x5_spot_db,freqtrade_bitget_x5_spot_db,freqtrade_gateio_x5_spot_db,**freqtrade_kraken_x5_spot_db**
+```
+
+Beim nächsten Start erstellt das init-db.sh Script die neue Datenbank automatisch.
+
+
 ### Neue Freqtrade Config-Datei erstellen
 
 Erstelle im Verzeichnis user_data/configs/ eine neue Datei, z.B. KrakenX5Spot.json.
@@ -135,45 +156,43 @@ Hinweis:
 • listen_port immer 8080 belassen.
 • Die Ports unterscheiden sich nur auf Docker-Compose-Ebene (127.0.0.1:8084:8080).
 
+#### Neuen Telegram bot erstellen
+• Neuen Bot erstellen: `/newbot`
+• Name vergeben: `<exchange><strategy><trading_mode>` z.B.: `BitgetX6Spot`
+• Username vergeben: `<exxchange>_<strategy>_trading_mode>_bot` z.B.: `bitget_x6_spot_bot`
+• Access token in .ENV Datei speichern
+
+#### .ENV erweitern
+Erweitere die .env Datei auf dem Server um die benötigten env vars.
+
+• Generiere einen usernamen auf auf https://it-tools.tech/token-generator (Länge 32)
+• Generiere ein Passwort in 1Password (Gleich darin speichern)
+• Generiere einen jwt_secret_key auf https://jwtsecret.com/generate
+• Generaiere einen ws_token auf https://it-tools.tech/token-generator
+• Telegram token aus Bot creation eintragen
+• Chat_ID eintragen. s.h. andere env vars für PN
+
 #### CORS in Hauptbbot (UI) setzen
 
 Erweitere die CORS settings in der freqtrade config des Bots, der die UI stellt, um die neue Subdomain. Dieser muss immer alle Subdomains enthalten.
 
-### Postgres-Datenbank anlegen
-
-    •	Trage die neue DB freqtrade_kraken_x5_spot_db in der DATABASES-Umgebungsvariable deines Postgres-Services in docker-compose.yml ein:
-
-Beispiel:
-
-```
-DATABASES: freqtrade_binance_x5_spot_db,freqtrade_bitget_x5_spot_db,freqtrade_gateio_x5_spot_db,freqtrade_kraken_x5_spot_db
-```
-
-Beim nächsten Start erstellt das init-db.sh Script die neue Datenbank automatisch.
-
-⸻
-
 ### Subdomain bei All-Inkl einrichten
 
-    •	Logge dich bei All-Inkl ein.
-    •	Gehe auf Domainverwaltung → Subdomain hinzufügen.
-    •	Beispiel:
-    •	Subdomain: kraken-x5-spot
-    •	Ziel (A-Record): 65.21.61.51 (deine Server-IP)
-
-✅ Wichtig: Speichern und DNS-Update abwarten (ca. 5–30 Minuten).
-
-⸻
+•	Logge dich bei All-Inkl ein.
+•	Gehe auf Tools -> DNS-Einstellungen
+•	florinalenz.com auswählen
+•	Subdomain anlegen, z.b.: `kraken-x5-spot`
+•	Ziel (A-Record): Server-IP
 
 ### Subdomain auf dem Server einrichten
 
-    •	Nutze dein Script setup-subdomain.sh:
+Script setup-subdomain.sh:
 
 ```
-sudo freqtrade_configs/scripts/setup-subdomain.sh kraken-x5-spot 8084
+sudo freqtrade_configs/scripts/setup-subdomain.sh <subdomain> <port>
 ```
 
-➡️ Das Skript:
+Das Skript:
 • Erzeugt die Nginx-Config.
 • Fordert automatisch das SSL-Zertifikat an.
 • Richtet HTTPS-Weiterleitung korrekt ein.
@@ -187,6 +206,13 @@ BOTS=("BinanceX5Spot" "BitgetX5Spot" "GateioX5Spot")
 ```
 Die Liste der Bots erweitern um neuen Bot.
 
+UND
+
+```
+freqtrade_configs/update/config.py
+```
+
+neuen Bot in BOTS eintragen
 
 ### Docker Compose neu starten
 
