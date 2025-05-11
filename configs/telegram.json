@@ -35,7 +35,7 @@
 
             "protection_trigger": "on",
             "protection_trigger_global": "on",
-            "strategy_msg": "off",
+            "strategy_msg": "on",
             "show_candle": "off"
         },
         "reload": true,
