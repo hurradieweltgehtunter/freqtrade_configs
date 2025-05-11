@@ -26,7 +26,8 @@ NFI_DIR = STRATEGIES_DIR / "NostalgiaForInfinity"
 BOTS = {
     "BinanceX5Spot": 8081,
     "BitgetX5Spot": 8082,
-    "GateioX5Spot": 8083
+    "GateioX5Spot": 8083,
+    "BitgetX6Spot": 8084,
 }
 
 # .env Pfad
