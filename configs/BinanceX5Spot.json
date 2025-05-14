@@ -6,8 +6,7 @@
         "./pairlist.binance.json",
         "../strategies/NostalgiaForInfinity/configs/blacklist-binance.json",
         "./wallet.binance.hot.json",
-        "./telegram.json",
-        "./webhook.json"
+        "./telegram.json"
     ],
     "unfilledtimeout": {
         "entry": 10,

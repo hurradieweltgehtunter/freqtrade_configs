@@ -5,8 +5,7 @@
         "../strategies/NostalgiaForInfinity/configs/trading_mode-spot.json",
         "./pairlist.bitget.json",
         "../strategies/NostalgiaForInfinity/configs/blacklist-bitget.json",
-        "./telegram.json",
-        "./webhook.json"
+        "./telegram.json"
     ],
     "max_open_trades": 4,
     "stake_currency": "USDT",
