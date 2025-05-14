@@ -59,5 +59,77 @@
     "force_entry_enable": false,
     "internals": {
         "process_throttle_secs": 5
+    },
+    "webhook": {
+        "enabled": true,
+        "format": "json",
+        "url": "",
+        "allow_custom_messages": true,
+        "strategy_msg": {
+            "Event": "Strategy Message",
+            "Message": "{msg}"
+        },
+        "entry": {
+            "action": "entry",
+            "trade_id": "{trade_id}",
+            "pair": "{pair}",
+            "limit": "limit {limit:8f}",
+            "stake": "{stake_amount:8f}",
+            "stake_currency": "{stake_currency}",
+            "exchange": "{exchange}"
+        },
+        "entry_cancel": {
+            "action": "entry_cancel",
+            "trade_id": "{trade_id}",
+            "pair": "{pair}",
+            "limit": "{limit:8f}",
+            "stake": "{stake_amount:8f}",
+            "stake_currency": "{stake_currency}",
+            "exchange": "{exchange}"
+        },
+            "entry_fill": {
+            "action": "entry_fill",
+            "trade_id": "{trade_id}",
+            "pair": "{pair}",
+            "open_rate": "{open_rate:8f}",
+            "exchange": "{exchange}"
+        },
+        "exit": {
+            "action": "exit",
+            "trade_id": "{trade_id}",
+            "pair": "{pair}",
+            "limit": "{limit:8f}",
+            "stake": "{stake_amount:8f}",
+            "stake_currency": "{stake_currency}",
+            "exchange": "{exchange}",
+            "profit_amount": "{profit_amount:8f}",
+            "profit_ratio": "{profit_ratio:2f}"
+        },
+        "exit_cancel": {
+            "action": "exit_cancel",
+            "trade_id": "{trade_id}",
+            "pair": "{pair}",
+            "limit": "{limit:8f}",
+            "stake": "{stake_amount:8f}",
+            "stake_currency": "{stake_currency}",
+            "exchange": "{exchange}",
+            "profit_amount": "{profit_amount:8f}",
+            "profit_ratio": "{profit_ratio:2f}"
+        },
+        "exit_fill": {
+            "action": "exit_fill",
+            "pair": "{pair}",
+            "exchange": "{exchange}",
+            "close_rate": "{close_rate:8f}.",
+            "open_date": "{open_date}",
+            "close_date": "{close_date}",
+            "trade_id": "{trade_id}",
+            "direction": "{direction}",
+            "bot_name": "GateioX5Spot"
+        },
+        "status": {
+            "action": "status",
+            "status": "{status}"
+        }
     }
 }
