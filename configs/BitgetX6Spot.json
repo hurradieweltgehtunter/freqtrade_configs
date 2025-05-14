@@ -133,7 +133,7 @@
             "close_date": "{close_date}",
             "trade_id": "{trade_id}",
             "direction": "{direction}",
-            "bot_name": "BinanceX6Spot"
+            "bot_name": "BitgetX6Spot"
         },
         "status": {
             "action": "status",
