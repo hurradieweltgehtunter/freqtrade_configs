@@ -7,7 +7,7 @@
         "../strategies/NostalgiaForInfinity/configs/blacklist-bitget.json",
         "./telegram.json"
     ],
-    "max_open_trades": 4,
+    "max_open_trades": 7,
     "stake_currency": "USDT",
     "stake_amount": "unlimited",
     "tradable_balance_ratio": 0.99,
