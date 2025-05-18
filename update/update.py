@@ -49,7 +49,8 @@ def run_actions():
     # Manuell festgelegte Reihenfolge der Actions
     actions_order = [
         "update_config_repo",
-        "update_nfi_repo"
+        "update_nfi_repo",
+        "patch_x6",
     ]
 
     should_reload_config = False
