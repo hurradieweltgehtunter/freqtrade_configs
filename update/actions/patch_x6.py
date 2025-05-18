@@ -11,6 +11,9 @@ logger = logging.getLogger(__name__)
 def run():
     fname = "NostalgiaForInfinityX6.py"
     file = STRATEGIES_DIR / fname
+
+    logger.info("Patching X6, set grind_mode_stake_multiplier_spot to [1.0, 0.30, 0.40, 0.50, 0.60, 0.70] and grinding_v1_max_stake to 1.0")
+
     # Patch grind multiplier in X6 strategy
     content = file.read_text()
     patched = re.sub(
@@ -18,6 +21,8 @@ def run():
         r"\1[1.0, 0.30, 0.40, 0.50, 0.60, 0.70]",
         content
     )
+
+    logger.info("Updating grind_mode_stake_multiplier_spot to [1.0, 0.30, 0.40, 0.50, 0.60, 0.70]")
     # Update grinding_v1_max_stake to 1.0
     patched = re.sub(
         r'^(grinding_v1_max_stake\s*=\s*)\d+(\.\d+)?',
@@ -26,3 +31,5 @@ def run():
         flags=re.MULTILINE
     )
     file.write_text(patched)
+
+    return True
