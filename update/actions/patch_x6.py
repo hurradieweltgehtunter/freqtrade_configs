@@ -31,5 +31,3 @@ def run():
         flags=re.MULTILINE
     )
     file.write_text(patched)
-
-    return True
