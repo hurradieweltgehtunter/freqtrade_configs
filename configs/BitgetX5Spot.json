@@ -5,7 +5,7 @@
         "../strategies/NostalgiaForInfinity/configs/trading_mode-spot.json",
         "./pairlist.bitget.json",
         "../strategies/NostalgiaForInfinity/configs/blacklist-bitget.json",
-        "./wallet.bitget.hot.json",
+        "./wallet.bitget.dry.json",
         "./telegram.json"
     ],
     "unfilledtimeout": {
